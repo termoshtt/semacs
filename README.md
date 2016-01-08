@@ -1,6 +1,9 @@
 semacs
 ======
 
-A semantic data manager for scientists.
+Semantic data manager for scientists.
 Semantic + Emacs(=environment) = semacs.
 
+Licence
+--------
+MIT License (see LICENSE file)
