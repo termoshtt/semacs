@@ -13,6 +13,17 @@ node_actions = {}
 graph_actions = {}
 
 
+def graph(func):
+    spec = getargspec(func)
+    nkeys = len(spec.defaults)
+    graph_actions[func.__name__] = {
+        "func": func,
+        "args": spec.args[1:-nkeys],
+        "kwds": spec.args[-nkeys:],
+    }
+    return func
+
+
 class NodeActionImplError(SemacsError):
     def __init__(self, name):
         self.name = name
@@ -44,7 +55,7 @@ def _wrap(filter_func):
         node_actions[func.__name__] = {
             "func": func,
             "args": spec.args[1:-nkeys],
-            "kwds": spec.args[nkeys:],
+            "kwds": spec.args[-nkeys:],
         }
         return wrapper
     return decorator
