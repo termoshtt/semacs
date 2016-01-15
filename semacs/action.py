@@ -9,14 +9,14 @@ from .exception import SemacsError
 logger = getLogger(__name__)
 logger.addHandler(NullHandler())
 
-node_actions = {}
-graph_actions = {}
+actions = {}
 
 
 def graph(func):
     spec = getargspec(func)
     nkeys = len(spec.defaults)
-    graph_actions[func.__name__] = {
+    actions[func.__name__] = {
+        "type": "graph",
         "func": func,
         "args": spec.args[1:-nkeys],
         "kwds": spec.args[-nkeys:],
@@ -52,7 +52,8 @@ def _wrap(filter_func):
             return G
         spec = getargspec(func)
         nkeys = len(spec.defaults)
-        node_actions[func.__name__] = {
+        actions[func.__name__] = {
+            "type": "node",
             "func": func,
             "args": spec.args[1:-nkeys],
             "kwds": spec.args[-nkeys:],
