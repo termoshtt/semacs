@@ -16,9 +16,9 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    sub_psr = parser.add_subparsers(title="subcommands", metavar="actions")
+    sub_psr = parser.add_subparsers(title="Available Actions", metavar="")
     for name, info in semacs.action.actions.items():
-        action_psr = sub_psr.add_parser(name)
+        action_psr = sub_psr.add_parser(name, help=info["doc"])
         for arg in info["args"]:
             action_psr.add_argument(arg)
         if "kwds" not in info:

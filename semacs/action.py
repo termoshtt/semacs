@@ -12,6 +12,14 @@ logger.addHandler(NullHandler())
 actions = {}
 
 
+def _get_doc(func):
+    if func.__doc__:
+        for line in func.__doc__.split("\n"):
+            if line:
+                return line
+    return ""
+
+
 def graph(func):
     spec = getargspec(func)
     nkeys = len(spec.defaults)
@@ -20,6 +28,7 @@ def graph(func):
         "func": func,
         "args": spec.args[1:-nkeys],
         "kwds": spec.args[-nkeys:],
+        "doc": _get_doc(func),
     }
     return func
 
@@ -57,6 +66,7 @@ def _wrap(filter_func):
             "func": func,
             "args": spec.args[1:-nkeys],
             "kwds": spec.args[-nkeys:],
+            "doc": _get_doc(func),
         }
         return wrapper
     return decorator
