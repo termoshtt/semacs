@@ -14,7 +14,6 @@ def graph(func, *args, **kwds):
 
 
 def execute(info, *args, **kwds):
-    print(info)
     return {
         "node": node,
         "graph": graph,
