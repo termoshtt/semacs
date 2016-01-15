@@ -14,7 +14,7 @@ def main(args):
     else:
         k = {}
     try:
-        semacs.execute.execute(args.info, *a, **k)
+        semacs.action.execute(args.info, *a, **k)
     except semacs.exception.SemacsError as e:
         if args.debug:
             print(traceback.format_exc())
