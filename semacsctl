@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import semacs
+import argparse
+
+
+def main(args):
+    a = [vars(args)[i] for i in args.info["args"]]
+    if "kwds" in args.info:
+        k = {i: vars(args)[i] for i in args.info["kwds"]
+             if vars(args)[i] is not None}
+    else:
+        k = {}
+    semacs.execute.execute(args.info, *a, **k)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    sub_psr = parser.add_subparsers(title="subcommands", metavar="actions")
+    for name, info in semacs.action.actions.items():
+        action_psr = sub_psr.add_parser(name)
+        for arg in info["args"]:
+            action_psr.add_argument(arg)
+        if "kwds" not in info:
+            continue
+        for kwd in info["kwds"]:
+            action_psr.add_argument("--" + kwd)
+        action_psr.set_defaults(info=info)
+
+    main(parser.parse_args())
