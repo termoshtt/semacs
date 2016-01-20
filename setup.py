@@ -13,5 +13,6 @@ setup(
     license="MIT",
     keywords="science",
     url="http://github.com/termoshtt/semacs",
+    scripts=["semacsctl"],
     packages=["semacs"],
 )
