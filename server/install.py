@@ -116,15 +116,14 @@ def _copy_file(path, zf, fn):
             f_to.write(f_from.read())
 
 if __name__ == '__main__':
-    ROOT = op.dirname(__file__)
-    jspath = op.join(ROOT, "static/js")
-    csspath = op.join(ROOT, "static/css")
-    imagepath = op.join(ROOT, "static/images")
-    fontspath = op.join(ROOT, "static/fonts")
-    if not os.path.exists(imagepath):
-        os.mkdir(imagepath)
-    if not os.path.exists(fontspath):
-        os.mkdir(fontspath)
+    root_dir = op.join(op.dirname(__file__), "static")
+    jspath = op.join(root_dir, "js")
+    csspath = op.join(root_dir, "css")
+    imagepath = op.join(root_dir, "images")
+    fontspath = op.join(root_dir, "fonts")
+    for path in [root_dir, jspath, csspath, imagepath, fontspath]:
+        if not os.path.exists(path):
+            os.mkdir(path)
 
     install_jquery(jspath)
     install_jquery_cookie(jspath)
