@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block header %}
+<h2>Run List</h2>
+{% endblock %}
+{% block body %}
+<table class="dp-projectlist table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Comment</th>
+      <th>Tags</th>
+      <th>Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%- for n in runs %}
+    <tr>
+      <td>
+        <a href="">{{n.name|e}}</a>
+      </td>
+      <td class="dp-comment" dp-path="{{n.path}}">{{n.comment|e}}</td>
+      <td></td>
+      <td>{{n.path|e}}</td>
+    </tr>
+    {%- endfor %}
+  </tbody>
+</table>
+{% endblock %}

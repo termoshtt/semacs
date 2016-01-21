@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import semacs
+import os.path as op
 from flask import Flask, render_template
 app = Flask(__name__)
+
+
+def _fill_name(nodes):
+    for t in nodes:
+        if "name" not in t or not t["name"]:
+            t["name"] = op.basename(t["path"])
 
 
 @app.route('/')
@@ -12,12 +20,18 @@ def home():
 
 @app.route('/runs')
 def runs():
-    return "Run Lists"
+    G = semacs.io.load()
+    runs = [d for n, d in G.nodes_iter(data=True) if d["type"] == "run"]
+    _fill_name(runs)
+    return render_template("runs.html", runs=runs)
 
 
-@app.route("/projects")
-def projects():
-    return "Project Lists"
+@app.route("/tags")
+def tags():
+    G = semacs.io.load()
+    tags = [d for n, d in G.nodes_iter(data=True) if d["type"] == "tag"]
+    _fill_name(tags)
+    return render_template("tags.html", tags=tags)
 
 
 @app.route("/ipynbs")
