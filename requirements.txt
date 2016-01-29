@@ -4,3 +4,4 @@ networkx
 nbopen
 PyYAML
 fasteners
+flask
