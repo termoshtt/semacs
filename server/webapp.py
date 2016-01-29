@@ -3,7 +3,7 @@
 
 import semacs
 import os.path as op
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 app = Flask(__name__)
 
 
@@ -40,6 +40,16 @@ def ipynbs():
     ipynbs = [d for n, d in G.nodes_iter(data=True) if d["type"] == "ipynb"]
     _fill_name(ipynbs)
     return render_template("ipynbs.html", ipynbs=ipynbs)
+
+
+@app.route("/graph")
+def graph():
+    return render_template("graph.html")
+
+
+@app.route("/json")
+def json():
+    return jsonify(semacs.io.load_obj())
 
 if __name__ == '__main__':
     app.debug = True

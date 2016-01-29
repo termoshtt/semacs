@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block header %}
+<h2>Graph</h2>
+{% endblock %}
+{% block body %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+<link type="text/css" rel="stylesheet" href="static/css/force.css"/>
+<div id="chart" style="border:#000000"></div>
+<section id="info">
+  <h3>Information</h3>
+</section>
+<script type="text/javascript" src="static/js/force.js"></script>
+{% endblock %}

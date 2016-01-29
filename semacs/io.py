@@ -23,11 +23,14 @@ def _validate_settings(cfg):
 
 
 def load():
+    return json_graph.node_link_graph(load_obj())
+
+
+def load_obj():
     cfg = settings.load("storage")
     _validate_settings(cfg)
     with open(cfg["filename"], "r") as f:
-        d = json.load(f)
-    return json_graph.node_link_graph(d)
+        return json.load(f)
 
 
 def save(G):
