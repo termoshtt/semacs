@@ -51,6 +51,17 @@ def graph():
 def json():
     return jsonify(semacs.io.load_obj())
 
+
+@app.route('/node/<path:path>')
+def node(path):
+    path = "/" + path
+    G = semacs.io.load()
+    if path not in G.node:
+        return "Not found: path=" + path
+    node = G.node[path]
+    _fill_name([node, ])
+    return render_template("dir_node.html", node=node)
+
 if __name__ == '__main__':
     app.debug = True
     app.run()

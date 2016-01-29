@@ -16,7 +16,7 @@
     {%- for n in runs %}
     <tr>
       <td>
-        <a href="">{{n.name|e}}</a>
+        <a href="/node/{{n.path[1:]}}">{{n.name|e}}</a>
       </td>
       <td class="dp-comment" dp-path="{{n.path}}">{{n.comment|e}}</td>
       <td></td>
