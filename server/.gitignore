@@ -1,5 +1,5 @@
 # downloaded
-static/js/jquery-2.10.2.js
+static/js/jquery-*.js
 static/js/jquery.cookie.js
 static/js/jquery.blockUI.js
 static/js/jquery.dataTables.min.js
