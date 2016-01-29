@@ -85,6 +85,5 @@ all = _wrap(lambda _: True)
 
 
 def execute(info, *args, **kwds):
-    G = sio.load()
-    info["func"](G, *args, **kwds)
-    sio.save(G)
+    with sio.graph() as G:
+        info["func"](G, *args, **kwds)
