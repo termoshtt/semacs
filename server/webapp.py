@@ -36,7 +36,10 @@ def tags():
 
 @app.route("/ipynbs")
 def ipynbs():
-    return "IPython Notebooks"
+    G = semacs.io.load()
+    ipynbs = [d for n, d in G.nodes_iter(data=True) if d["type"] == "ipynb"]
+    _fill_name(ipynbs)
+    return render_template("ipynbs.html", ipynbs=ipynbs)
 
 if __name__ == '__main__':
     app.debug = True

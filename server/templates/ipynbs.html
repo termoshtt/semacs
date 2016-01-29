@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block header %}
+<h2>IPython Notebooks</h2>
+{% endblock %}
+{% block body %}
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Comment</th>
+      <th>Tags</th>
+      <th>Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for n in ipynbs %}
+    <tr>
+      <td>{{n["name"]|e}}</td>
+      <td class="dp-comment" dp-path="{{n['path']}}">{{n["comment"]|e}}</td>
+      <td></td>
+      <td>{{n["path"]|e}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
