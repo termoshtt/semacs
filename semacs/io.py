@@ -2,7 +2,9 @@
 
 import os.path as op
 import json
+from contextlib import contextmanager
 from networkx.readwrite import json_graph
+import fasteners
 
 from . import settings
 from .exception import SemacsError
@@ -34,3 +36,11 @@ def save(G):
     _validate_settings(cfg)
     with open(cfg["filename"], "w") as f:
         json.dump(d, f)
+
+
+@contextmanager
+def graph():
+    with fasteners.InterProcessLock("/tmp/semacs/load_main_json"):
+        G = load()
+        yield G
+        save(G)
