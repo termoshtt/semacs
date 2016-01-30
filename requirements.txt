@@ -5,3 +5,4 @@ nbopen
 PyYAML
 fasteners
 flask
+requests
