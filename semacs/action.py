@@ -23,7 +23,10 @@ def _get_doc(func):
 
 def graph(func):
     spec = getargspec(func)
-    nkeys = len(spec.defaults)
+    if spec.defaults:
+        nkeys = len(spec.defaults)
+    else:
+        nkeys = 0
     actions[func.__name__] = {
         "type": "graph",
         "func": func,
