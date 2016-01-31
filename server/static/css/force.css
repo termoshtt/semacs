@@ -1,6 +1,19 @@
 
-circle.node {
-  stroke: #fff;
+circle.run {
+  fill: #00f;
+  stroke: #440;
+  stroke-width: 1.5px;
+}
+
+circle.tag {
+  fill: #f0f;
+  stroke: #040;
+  stroke-width: 1.5px;
+}
+
+circle.ipynb {
+  fill: #0ff;
+  stroke: #000;
   stroke-width: 1.5px;
 }
 

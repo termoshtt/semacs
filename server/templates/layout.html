@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.colReorder.min.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.fixedColumns.min.css') }}" type="text/css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/webapp.css') }}" type="text/css">
 </head>
 
 <body>
@@ -27,7 +26,7 @@
           <li><a class="dp-nav" href="{{ url_for('runs') }}">Runs</a></li>
           <li><a class="dp-nav" href="{{ url_for('tags') }}">Tags</a></li>
           <li><a class="dp-nav" href="{{ url_for('ipynbs') }}">IPython Notebooks</a></li>
-          <li><a class="dp-nav" href="{{ url_for('graph') }}">Graph</a></li>
+          <li><a class="dp-nav" href="{{ url_for('graph') }}">Graph (Experimental)</a></li>
         </ul>
       </div>
       {% block header %}
@@ -45,9 +44,6 @@
   <script src="{{ url_for('static', filename='js/multifilter.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/dataTables.colReorder.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/setting.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/dataprocessor.js') }}"></script>
 </body>
 
 </html>

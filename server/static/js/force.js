@@ -1,6 +1,6 @@
 
 var w = 1200, h = 600, fill = d3.scale.category20();
-var r = 10;
+var r = 5;
 
 var vis = d3.select("#chart")
   .append("svg:svg")
@@ -34,11 +34,10 @@ d3.json("/json", function(json) {
   var node = vis.selectAll("circle.node")
     .data(json.nodes)
     .enter().append("svg:circle")
-    .attr("class", "node")
+    .attr("class", function(d) { return d.type; })
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; })
     .attr("r", function(d){ return r; })
-    .style("fill", function(d) { return fill(d.group); })
     .call(force.drag)
     .on("click", function(d, i){ info.text(d.path); })
     ;
