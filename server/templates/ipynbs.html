@@ -15,7 +15,11 @@
   <tbody>
     {% for n in ipynbs %}
     <tr>
-      <td>{{n["name"]|e}}</td>
+      {% if "url" in n %}
+        <td><a href="{{n["url"]}}" target="_blank">{{n["name"]|e}}</a></td>
+      {% else %}
+        <td>{{n["name"]|e}}</td>
+      {% endif %}
       <td class="dp-comment" dp-path="{{n['path']}}">{{n["comment"]|e}}</td>
       <td></td>
       <td>{{n["path"]|e}}</td>

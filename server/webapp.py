@@ -4,7 +4,7 @@
 import semacs
 import os
 import os.path as op
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, redirect
 app = Flask(__name__)
 
 
@@ -31,6 +31,8 @@ def tags():
 def ipynbs():
     G = semacs.io.load()
     ipynbs = [d for n, d in G.nodes_iter(data=True) if d["type"] == "ipynb"]
+    for n in ipynbs:
+        n["url"] = semacs.ipynb.get_url(n["path"])
     return render_template("ipynbs.html", ipynbs=ipynbs)
 
 
