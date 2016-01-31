@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import semacs
+import os
+import os.path as op
 from flask import Flask, render_template, jsonify
 app = Flask(__name__)
 
@@ -49,7 +51,12 @@ def node(path):
     if path not in G.node:
         return "Not found: path=" + path
     node = G.node[path]
-    return render_template("dir_node.html", node=node)
+    non_seq, seq = semacs.utility.detect_sequence(os.listdir(path))
+    dirs = sorted(filter(lambda p: op.isdir(op.join(path, p)), non_seq))
+    files = [(p, semacs.utility.inspect_filetype(p), semacs.utility.strftime(op.join(path, p)))
+             for p in non_seq if op.isfile(op.join(path, p))]
+    files = sorted(files, key=lambda t: t[2])
+    return render_template("dir_node.html", node=node, dirs=dirs, files=files)
 
 if __name__ == '__main__':
     app.debug = True

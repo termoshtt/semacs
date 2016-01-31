@@ -21,13 +21,15 @@
       <tr>
         <th>filename</th>
         <th>type</th>
+        <th>mtime</th>
       </tr>
     </thead>
     <tbody>
-      {% for t, fn in files %}
+      {% for fn, ft, mt in files %}
       <tr>
         <td>{{fn|e}}</td>
-        <td>{{t|e}}</td>
+        <td>{{ft|e}}</td>
+        <td>{{mt|e}}</td>
       </tr>
       {% endfor %}
     </tbody>
