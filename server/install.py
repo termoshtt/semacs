@@ -11,19 +11,19 @@ from functools import wraps
 from contextlib import contextmanager
 
 chunk_size = 1024 * 1024
+install_list = []
 
 
-def show_progress(name):
-    def decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwds):
-            sys.stdout.write("Downloading {}...".format(name))
-            sys.stdout.flush()
-            res = f(*args, **kwds)
-            print("Done")
-            return res
-        return wrapper
-    return decorator
+def add_install(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        sys.stdout.write("Downloading {}...".format(f.__name__))
+        sys.stdout.flush()
+        res = f(*args, **kwds)
+        print("Done")
+        return res
+    install_list.append(wrapper)
+    return wrapper
 
 
 def download(url, filename, **cfg):
@@ -35,7 +35,7 @@ def download(url, filename, **cfg):
 
 @contextmanager
 def downloaded_zip(url, **cfg):
-    r = requests.get(url, headers={'User-Agent': "Magic Browser"})
+    r = requests.get(url, **cfg)
     with NamedTemporaryFile(suffix=".zip", delete=False) as f:
         zipname = f.name
         for chunk in r.iter_content(chunk_size):
@@ -44,29 +44,29 @@ def downloaded_zip(url, **cfg):
         yield zf
 
 
-@show_progress("jQuery")
-def install_jquery(jspath):
+@add_install
+def jquery(jspath, csspath, fontspath):
     fn = "jquery-1.10.2.js"
     url = "http://code.jquery.com/" + fn
     download(url, op.join(jspath, fn))
 
 
-@show_progress("jQuery Cookie")
-def install_jquery_cookie(jspath):
+@add_install
+def jquery_cookie(jspath, csspath, fontspath):
     fn = "jquery.cookie.js"
     url = "https://raw.github.com/carhartl/jquery-cookie/master/src/" + fn
     download(url, op.join(jspath, fn))
 
 
-@show_progress("jQuery blockUI")
-def install_jquery_blockUI(jspath):
+@add_install
+def jquery_blockUI(jspath, csspath, fontspath):
     fn = "jquery.blockUI.js"
     url = "http://malsup.github.io/" + fn
     download(url, op.join(jspath, fn))
 
 
-@show_progress("jQuery datatables")
-def install_jquery_datatables(jspath, csspath, imagepath):
+@add_install
+def jquery_datatables(jspath, csspath, imagepath):
     version = "1.10.4"
     topdir = "DataTables-{}".format(version)
     url = "http://datatables.net/releases/{}.zip".format(topdir)
@@ -93,8 +93,8 @@ def install_jquery_datatables(jspath, csspath, imagepath):
                    topdir + "/extensions/FixedColumns/css/dataTables.fixedColumns.min.css")
 
 
-@show_progress("Bootstrap")
-def install_bootstrap(jspath, csspath, fontspath):
+@add_install
+def bootstrap(jspath, csspath, fontspath):
     url = "https://github.com/twbs/bootstrap/releases/download/v3.3.1/bootstrap-3.3.1-dist.zip"
     with downloaded_zip(url) as zf:
         _copy_file(jspath, zf, "dist/js/bootstrap.min.js")
@@ -105,8 +105,8 @@ def install_bootstrap(jspath, csspath, fontspath):
         _copy_file(fontspath, zf, "dist/fonts/glyphicons-halflings-regular.woff")
 
 
-@show_progress("multifilter")
-def install_multifilter(jspath):
+@add_install
+def multifilter(jspath, csspath, fontspath):
     fn = "multifilter.min.js"
     url = "https://raw.githubusercontent.com/tommyp/multifilter/master/" + fn
     download(url, op.join(jspath, fn))
@@ -126,10 +126,5 @@ if __name__ == '__main__':
     for path in [root_dir, jspath, csspath, imagepath, fontspath]:
         if not op.exists(path):
             os.mkdir(path)
-
-    install_jquery(jspath)
-    install_jquery_cookie(jspath)
-    install_jquery_blockUI(jspath)
-    install_jquery_datatables(jspath, csspath, imagepath)
-    install_bootstrap(jspath, csspath, fontspath)
-    install_multifilter(jspath)
+    for installer in install_list:
+        installer(jspath, csspath, fontspath)
