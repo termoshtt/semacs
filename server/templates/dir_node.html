@@ -3,14 +3,14 @@
 {% include "node_header.html" %}
 {% endblock %}
 {% block body %}
-{% if dirs %}
+{% if videos %}
 <div class="panel panel-default">
-  <div class="panel-heading">Directories</div>
-  <ul class="list-group">
-    {% for d in dirs %}
-    <li class="list-group-item">{{d|e}}</td>
-    {% endfor %}
-  </ul>
+  <div class="panel-heading">Videos</div>
+  {% for path in videos %}
+  <div class="container-fluid">
+    <video src=/multimedia{{path}} controls width=1000></video>
+  </div>
+  {% endfor %}
 </div>
 {% endif %}
 {% if files %}
@@ -25,15 +25,25 @@
       </tr>
     </thead>
     <tbody>
-      {% for fn, ft, mt in files %}
+      {% for fn, ft, mt, path in files %}
       <tr>
-        <td>{{fn|e}}</td>
+        <td><a href="/multimedia{{path}}">{{fn|e}}</a></td>
         <td>{{ft|e}}</td>
         <td>{{mt|e}}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+</div>
+{% endif %}
+{% if dirs %}
+<div class="panel panel-default">
+  <div class="panel-heading">Directories</div>
+  <ul class="list-group">
+    {% for d in dirs %}
+    <li class="list-group-item">{{d|e}}</td>
+    {% endfor %}
+  </ul>
 </div>
 {% endif %}
 {% if sequences %}

@@ -29,31 +29,6 @@ def detect_sequence(names):
     return non_seq, seq
 
 
-def inspect_filetype(name):
-    """
-    Inspect filetype from extention
-
-    Example
-    -------
-    >>> inspect_filetype("movie.avi")
-    'video'
-    >>> inspect_filetype("a.png")
-    'image'
-
-    """
-    _, ext = os.path.splitext(name)
-    ext = ext[1:].lower()
-    extensions = {
-        "video": ["avi", "mp4"],
-        "image": ["png", "jpg", "jpeg", "gif"],
-        "ipynb": ["ipynb"],
-    }
-    for typename, exts in extensions.items():
-        if ext in exts:
-            return typename
-    return "Unknown"
-
-
-def strftime(path, format_str="%Y/%m/%d-%H:%M:%S"):
+def get_mtime(path, format_str="%Y/%m/%d-%H:%M:%S"):
     mt = os.stat(path).st_mtime
     return time.strftime(format_str, time.localtime(mt))

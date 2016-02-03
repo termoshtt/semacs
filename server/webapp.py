@@ -4,9 +4,13 @@
 import semacs
 import os
 import os.path as op
-from flask import Flask, render_template, jsonify, redirect
+import mimetypes
+from flask import Flask, render_template, jsonify, send_file
 app = Flask(__name__)
 
+
+def _inspect_filetype(filename):
+    return mimetypes.guess_type(filename)[0]
 
 @app.route('/')
 def home():
@@ -55,10 +59,17 @@ def node(path):
     node = G.node[path]
     non_seq, seq = semacs.utility.detect_sequence(os.listdir(path))
     dirs = sorted(filter(lambda p: op.isdir(op.join(path, p)), non_seq))
-    files = [(p, semacs.utility.inspect_filetype(p), semacs.utility.strftime(op.join(path, p)))
-             for p in non_seq if op.isfile(op.join(path, p))]
+    files = [(op.basename(p), _inspect_filetype(p), semacs.utility.get_mtime(p), p)
+             for p in map(lambda p: op.join(path, p), non_seq)if op.isfile(p)]
     files = sorted(files, key=lambda t: t[2])
-    return render_template("dir_node.html", node=node, dirs=dirs, files=files)
+    videos = [p for _, ft, _, p in files if ft and ft.startswith("video")]
+    return render_template("dir_node.html", node=node, videos=videos, dirs=dirs, files=files)
+
+
+@app.route("/multimedia/<path:path>")
+def multimedia(path):
+    path = "/" + path
+    return send_file(path, as_attachment=True)
 
 if __name__ == '__main__':
     app.debug = True
